@@ -5,13 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Ovo Clicker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        #contador {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #ovo {
+            font-size: 150px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            transition: transform 0.1s;
+        }
+
+        #ovo:active {
+            transform: translate(-50%, -50%) scale(0.92);
+        }
+    </style>
 </head>
 
 <body>
 
     <h1>🥚 Ovo Clicker</h1>
 
-    <p>Cliques: <span id="contador">0</span></p>
+    <div id="contador">
+        Cliques: <span id="numero">0</span>
+    </div>
 
     <button id="ovo">🥚</button>
 
@@ -19,11 +67,11 @@
         let cliques = 0;
 
         const ovo = document.getElementById("ovo");
-        const contador = document.getElementById("contador");
+        const numero = document.getElementById("numero");
 
         ovo.addEventListener("click", function() {
             cliques++;
-            contador.textContent = cliques;
+            numero.textContent = cliques;
         });
     </script>
 
