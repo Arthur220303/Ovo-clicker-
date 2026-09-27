@@ -1,1 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Ovo Clicker</title>
+</head>
+
+<body>
+
+    <h1>🥚 Ovo Clicker</h1>
+
+    <p>Cliques: <span id="contador">0</span></p>
+
+    <button id="ovo">🥚</button>
+
+    <script>
+        let cliques = 0;
+
+        const ovo = document.getElementById("ovo");
+        const contador = document.getElementById("contador");
+
+        ovo.addEventListener("click", function() {
+            cliques++;
+            contador.textContent = cliques;
+        });
+    </script>
+
+</body>
+</html>
