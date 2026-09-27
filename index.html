@@ -1,183 +1,898 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ovo Clicker</title>
+<title>Ovo Clicker</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #222 0%, #0b0b0b 70%);
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
 
-        h1 {
-            margin: 25px 0 5px;
-            font-size: 32px;
-        }
+/* CABEÇALHO */
 
-        #contador {
-            font-size: 24px;
-            margin-top: 10px;
-        }
+header {
+    text-align: center;
+    padding: 20px 10px 5px;
+}
 
-        #idade {
-            color: #aaa;
-            margin-top: 5px;
-        }
+header h1 {
+    margin: 0;
+    font-size: 34px;
+}
 
-        .jogo {
-            height: 65vh;
+#contador {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 8px;
+}
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+#idade {
+    color: #aaa;
+    margin-top: 5px;
+}
 
-        #ovo {
-            border: none;
-            background: transparent;
-            font-size: 180px;
-            cursor: pointer;
+/* ÁREA PRINCIPAL */
 
-            transition: transform 0.1s;
-        }
+.jogo {
+    min-height: 520px;
+    position: relative;
 
-        #ovo:active {
-            transform: scale(0.9);
-        }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-        #fase {
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: #ddd;
-        }
+/* LATERAIS */
 
-        .barra {
-            width: 300px;
-            height: 12px;
-            background: #333;
-            border-radius: 20px;
-            overflow: hidden;
-            margin-top: 25px;
-        }
+.painel {
+    position: absolute;
+    top: 40px;
+    width: 190px;
+    background: rgba(25,25,25,0.9);
+    border: 1px solid #444;
+    border-radius: 15px;
+    padding: 15px;
+}
 
-        #progresso {
-            width: 0%;
-            height: 100%;
-            background: #fff;
-            transition: width 0.2s;
-        }
+.painel h2 {
+    font-size: 18px;
+    margin: 0 0 15px;
+}
 
-        #mensagem {
-            margin-top: 15px;
-            color: #aaa;
-        }
-    </style>
+.esquerda {
+    left: 25px;
+}
+
+.direita {
+    right: 25px;
+}
+
+/* PODERES */
+
+.poder {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+
+    border: 1px solid #555;
+    border-radius: 10px;
+
+    background: #181818;
+    color: white;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.poder:hover {
+    background: #292929;
+    transform: scale(1.03);
+}
+
+.poder:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.poder.ativo {
+    border-color: #fff;
+}
+
+/* PODERES ATIVOS */
+
+.ativo-box {
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    background: #191919;
+    border: 1px solid #555;
+}
+
+.vazio {
+    color: #777;
+    font-size: 14px;
+}
+
+/* FASE */
+
+#fase {
+    font-size: 23px;
+    margin-bottom: 15px;
+    color: #ddd;
+}
+
+/* OVO */
+
+#ovo {
+    border: none;
+    background: transparent;
+    font-size: 180px;
+    cursor: pointer;
+
+    transition: transform 0.1s, filter 0.2s;
+}
+
+#ovo:hover {
+    filter: brightness(1.15);
+}
+
+#ovo:active {
+    transform: scale(0.88);
+}
+
+/* MENSAGEM */
+
+#mensagem {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #aaa;
+}
+
+/* MULTIPLICADOR */
+
+#multiplicador {
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* BARRA */
+
+.barra {
+    width: 320px;
+    height: 13px;
+
+    background: #333;
+    border-radius: 20px;
+
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+#progresso {
+    width: 0%;
+    height: 100%;
+    background: white;
+    transition: width 0.2s;
+}
+
+/* EVOLUÇÕES */
+
+.evolucoes {
+    padding: 25px;
+    background: #101010;
+    border-top: 1px solid #333;
+}
+
+.evolucoes h2 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.lista-evolucoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+
+    max-width: 1200px;
+    margin: auto;
+}
+
+.evolucao {
+    padding: 12px;
+    background: #191919;
+    border: 1px solid #333;
+    border-radius: 10px;
+
+    text-align: center;
+    opacity: 0.4;
+}
+
+.evolucao.desbloqueada {
+    opacity: 1;
+    border-color: #777;
+}
+
+.evolucao.atual {
+    border-color: white;
+    box-shadow: 0 0 12px rgba(255,255,255,0.25);
+}
+
+.evolucao .emoji {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.evolucao .numero {
+    color: #aaa;
+    font-size: 13px;
+}
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .painel {
+        position: static;
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .jogo {
+        min-height: auto;
+        padding: 20px 0;
+    }
+
+    #ovo {
+        font-size: 140px;
+    }
+
+    .barra {
+        width: 80%;
+    }
+
+    .evolucoes {
+        padding: 15px;
+    }
+}
+</style>
 </head>
 
 <body>
 
+<header>
+
     <h1>🥚 Ovo Clicker</h1>
 
     <div id="contador">
-        Cliques: 0
+        Toques: 0
     </div>
 
     <div id="idade">
-        Idade do ovo: 0
+        Idade: 0
+    </div>
+
+</header>
+
+
+<div class="jogo">
+
+    <!-- PODERES -->
+
+    <div class="painel esquerda">
+
+        <h2>⚡ Poderes</h2>
+
+        <button class="poder" id="poder15" onclick="ativarPoder(1.5)">
+            ⚡ ×1,5
+        </button>
+
+        <button class="poder" id="poder2" onclick="ativarPoder(2)">
+            🔥 ×2
+        </button>
+
+        <button class="poder" id="poder3" onclick="ativarPoder(3)">
+            💥 ×3
+        </button>
+
+        <button class="poder" id="poder5" onclick="ativarPoder(5)">
+            🚀 ×5
+        </button>
+
+        <button class="poder" id="poder10" onclick="ativarPoder(10)">
+            🌟 ×10
+        </button>
+
     </div>
 
 
-    <div class="jogo">
+    <!-- CENTRO -->
 
-        <div id="fase">
-            Ovo inteiro
-        </div>
+    <div id="fase">
+        Ovo recém-nascido
+    </div>
 
-        <button id="ovo">🥚</button>
+    <button id="ovo">
+        🥚
+    </button>
 
-        <div class="barra">
-            <div id="progresso"></div>
-        </div>
+    <div id="multiplicador">
+        Multiplicador: ×1
+    </div>
 
-        <div id="mensagem">
-            Clique no ovo!
+    <div class="barra">
+        <div id="progresso"></div>
+    </div>
+
+    <div id="mensagem">
+        Clique no ovo!
+    </div>
+
+
+    <!-- PODERES ATIVOS -->
+
+    <div class="painel direita">
+
+        <h2>🔥 Ativos</h2>
+
+        <div id="poderesAtivos">
+            <div class="vazio">
+                Nenhum poder ativo
+            </div>
         </div>
 
     </div>
 
-
-    <script>
-
-        let cliques = 0;
-
-        const ovo = document.getElementById("ovo");
-        const contador = document.getElementById("contador");
-        const idade = document.getElementById("idade");
-        const fase = document.getElementById("fase");
-        const progresso = document.getElementById("progresso");
-        const mensagem = document.getElementById("mensagem");
+</div>
 
 
-        ovo.addEventListener("click", function() {
+<!-- EVOLUÇÕES -->
 
-            cliques++;
+<section class="evolucoes">
 
-            contador.textContent = "Cliques: " + cliques;
+    <h2>📜 Evoluções</h2>
 
-            idade.textContent = "Idade do ovo: " + cliques;
+    <div class="lista-evolucoes" id="listaEvolucoes"></div>
 
-
-            // Fases temporárias
-            if (cliques < 5) {
-
-                ovo.textContent = "🥚";
-                fase.textContent = "Ovo inteiro";
-
-            } 
-            else if (cliques < 10) {
-
-                ovo.textContent = "🥚";
-                fase.textContent = "O ovo está rachando!";
-
-            } 
-            else if (cliques < 50) {
-
-                ovo.textContent = "🍳";
-                fase.textContent = "O ovo quebrou!";
-
-            } 
-            else {
-
-                ovo.textContent = "🟡";
-                fase.textContent = "A gema apareceu!";
-
-            }
+</section>
 
 
-            // Barra de progresso
-            let porcentagem = (cliques % 10) * 10;
+<script>
 
-            progresso.style.width = porcentagem + "%";
+/* =========================
+   DADOS DO JOGO
+========================= */
+
+const fases = [
+
+    { nivel: 0, emoji: "🥚", nome: "Ovo recém-nascido" },
+
+    { nivel: 5, emoji: "🥚", nome: "Ovo começando a rachar" },
+
+    { nivel: 10, emoji: "🥚", nome: "Ovo rachado" },
+
+    { nivel: 25, emoji: "🍳", nome: "Ovo quebrado" },
+
+    { nivel: 50, emoji: "🟡", nome: "Gema" },
+
+    { nivel: 100, emoji: "🟡", nome: "Gema se desenvolvendo" },
+
+    { nivel: 150, emoji: "🐣", nome: "Nasce o pinto" },
+
+    { nivel: 300, emoji: "🐥", nome: "Pinto recém-nascido" },
+
+    { nivel: 1000, emoji: "🐥", nome: "Pinto crescendo" },
+
+    { nivel: 2500, emoji: "🐤", nome: "Pinto jovem" },
+
+    { nivel: 5000, emoji: "🐤", nome: "Ave jovem" },
+
+    { nivel: 10000, emoji: "🐔", nome: "Galinha jovem" },
+
+    { nivel: 20000, emoji: "🐔", nome: "Galinha crescendo" },
+
+    { nivel: 35000, emoji: "🐔", nome: "Galinha adulta" },
+
+    { nivel: 50000, emoji: "🐓", nome: "Galo/Galinha evoluído" },
+
+    { nivel: 75000, emoji: "🦃", nome: "Ave gigante" },
+
+    { nivel: 100000, emoji: "🦅", nome: "Ave poderosa" },
+
+    { nivel: 150000, emoji: "🦅", nome: "Ave lendária" },
+
+    { nivel: 200000, emoji: "🐉", nome: "Criatura misteriosa" },
+
+    { nivel: 300000, emoji: "🐉", nome: "Dragão jovem" },
+
+    { nivel: 400000, emoji: "🐲", nome: "Dragão adulto" },
+
+    { nivel: 500000, emoji: "🔥", nome: "Dragão poderoso" },
+
+    { nivel: 600000, emoji: "⚡", nome: "Criatura elétrica" },
+
+    { nivel: 700000, emoji: "🌑", nome: "Criatura sombria" },
+
+    { nivel: 775000, emoji: "🌟", nome: "Criatura celestial" },
+
+    { nivel: 850000, emoji: "💫", nome: "Forma cósmica" },
+
+    { nivel: 900000, emoji: "🌌", nome: "Forma universal" },
+
+    { nivel: 950000, emoji: "👑", nome: "Forma suprema" },
+
+    { nivel: 990000, emoji: "💎", nome: "Forma final se aproximando" },
+
+    { nivel: 1000000, emoji: "🏆", nome: "EVOLUÇÃO MÁXIMA" }
+
+];
 
 
-            mensagem.textContent =
-                "Continue clicando...";
+/* =========================
+   VARIÁVEIS
+========================= */
 
-        });
+let cliques = Number(localStorage.getItem("ovoCliques")) || 0;
 
-    </script>
+let multiplicador =
+    Number(localStorage.getItem("ovoMultiplicador")) || 1;
+
+let poderesAtivos =
+    JSON.parse(localStorage.getItem("ovoPoderes")) || [];
+
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const ovo = document.getElementById("ovo");
+
+const contador = document.getElementById("contador");
+
+const idade = document.getElementById("idade");
+
+const fase = document.getElementById("fase");
+
+const mensagem = document.getElementById("mensagem");
+
+const progresso = document.getElementById("progresso");
+
+const multiplicadorTexto =
+    document.getElementById("multiplicador");
+
+const listaEvolucoes =
+    document.getElementById("listaEvolucoes");
+
+const poderesAtivosDiv =
+    document.getElementById("poderesAtivos");
+
+
+/* =========================
+   CLIQUE
+========================= */
+
+ovo.addEventListener("click", function() {
+
+    cliques += multiplicador;
+
+    /*
+       Evita números com muitas casas decimais.
+    */
+
+    cliques = Math.round(cliques * 10) / 10;
+
+    if (cliques > 1000000) {
+        cliques = 1000000;
+    }
+
+    salvar();
+
+    atualizar();
+
+});
+
+
+/* =========================
+   ATUALIZAR JOGO
+========================= */
+
+function atualizar() {
+
+    contador.textContent =
+        "Toques: " + formatarNumero(cliques);
+
+    idade.textContent =
+        "Idade: " + formatarNumero(cliques);
+
+
+    let faseAtual = fases[0];
+
+    for (let i = 0; i < fases.length; i++) {
+
+        if (cliques >= fases[i].nivel) {
+            faseAtual = fases[i];
+        }
+
+    }
+
+
+    ovo.textContent = faseAtual.emoji;
+
+    fase.textContent = faseAtual.nome;
+
+
+    /* Mensagens especiais */
+
+    if (cliques < 5) {
+
+        mensagem.textContent =
+            "Clique no ovo!";
+
+    }
+
+    else if (cliques < 10) {
+
+        mensagem.textContent =
+            "O ovo está começando a rachar...";
+
+    }
+
+    else if (cliques < 50) {
+
+        mensagem.textContent =
+            "O que será que vai nascer?";
+
+    }
+
+    else if (cliques < 150) {
+
+        mensagem.textContent =
+            "Continue clicando...";
+
+    }
+
+    else if (cliques < 300) {
+
+        mensagem.textContent =
+            "Oh meu Deus, um pinto nasceu!";
+
+    }
+
+    else if (cliques < 1000) {
+
+        mensagem.textContent =
+            "O pinto está crescendo...";
+
+    }
+
+    else if (cliques < 1000000) {
+
+        mensagem.textContent =
+            "Continue evoluindo!";
+
+    }
+
+    else {
+
+        mensagem.textContent =
+            "🏆 Você chegou a 1 MILHÃO!";
+
+    }
+
+
+    multiplicadorTexto.textContent =
+        "Multiplicador: ×" + multiplicador;
+
+
+    atualizarBarra();
+
+    atualizarEvolucoes();
+
+    atualizarPoderes();
+
+}
+
+
+/* =========================
+   BARRA DE PROGRESSO
+========================= */
+
+function atualizarBarra() {
+
+    let indiceAtual = 0;
+
+    for (let i = 0; i < fases.length; i++) {
+
+        if (cliques >= fases[i].nivel) {
+            indiceAtual = i;
+        }
+
+    }
+
+
+    if (indiceAtual >= fases.length - 1) {
+
+        progresso.style.width = "100%";
+        return;
+
+    }
+
+
+    let atual = fases[indiceAtual].nivel;
+
+    let proxima = fases[indiceAtual + 1].nivel;
+
+    let porcentagem =
+        ((cliques - atual) / (proxima - atual)) * 100;
+
+
+    progresso.style.width =
+        Math.max(0, Math.min(100, porcentagem)) + "%";
+
+}
+
+
+/* =========================
+   LISTA DE EVOLUÇÕES
+========================= */
+
+function atualizarEvolucoes() {
+
+    listaEvolucoes.innerHTML = "";
+
+
+    let faseAtual = 0;
+
+    for (let i = 0; i < fases.length; i++) {
+
+        if (cliques >= fases[i].nivel) {
+            faseAtual = i;
+        }
+
+    }
+
+
+    fases.forEach(function(item, index) {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "evolucao";
+
+
+        if (cliques >= item.nivel) {
+            div.classList.add("desbloqueada");
+        }
+
+
+        if (index === faseAtual) {
+            div.classList.add("atual");
+        }
+
+
+        div.innerHTML = `
+            <span class="emoji">${item.emoji}</span>
+
+            <strong>${item.nome}</strong>
+
+            <div class="numero">
+                ${formatarNumero(item.nivel)} toques
+            </div>
+        `;
+
+
+        listaEvolucoes.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   PODERES
+========================= */
+
+function ativarPoder(valor) {
+
+    if (poderesAtivos.includes(valor)) {
+
+        /*
+           Se já estiver ativo,
+           remove o poder.
+        */
+
+        poderesAtivos =
+            poderesAtivos.filter(p => p !== valor);
+
+    }
+
+    else {
+
+        poderesAtivos.push(valor);
+
+    }
+
+
+    calcularMultiplicador();
+
+    salvar();
+
+    atualizar();
+
+}
+
+
+/* =========================
+   CALCULAR MULTIPLICADOR
+========================= */
+
+function calcularMultiplicador() {
+
+    multiplicador = 1;
+
+
+    /*
+       Os poderes acumulam.
+
+       Exemplo:
+
+       ×1,5 + ×2
+
+       multiplicador = 3
+    */
+
+    poderesAtivos.forEach(function(poder) {
+
+        multiplicador *= poder;
+
+    });
+
+
+    multiplicador =
+        Math.round(multiplicador * 100) / 100;
+
+}
+
+
+/* =========================
+   MOSTRAR PODERES
+========================= */
+
+function atualizarPoderes() {
+
+    const botoes = {
+
+        1.5: document.getElementById("poder15"),
+
+        2: document.getElementById("poder2"),
+
+        3: document.getElementById("poder3"),
+
+        5: document.getElementById("poder5"),
+
+        10: document.getElementById("poder10")
+
+    };
+
+
+    Object.keys(botoes).forEach(function(valor) {
+
+        const numero = Number(valor);
+
+        const botao = botoes[valor];
+
+
+        if (poderesAtivos.includes(numero)) {
+
+            botao.classList.add("ativo");
+
+            botao.textContent =
+                "✅ ×" + valor;
+
+        }
+
+        else {
+
+            botao.classList.remove("ativo");
+
+            botao.textContent =
+                "⚡ ×" + valor;
+
+        }
+
+    });
+
+
+    poderesAtivosDiv.innerHTML = "";
+
+
+    if (poderesAtivos.length === 0) {
+
+        poderesAtivosDiv.innerHTML =
+            `<div class="vazio">
+                Nenhum poder ativo
+            </div>`;
+
+        return;
+
+    }
+
+
+    poderesAtivos.forEach(function(poder) {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "ativo-box";
+
+        div.textContent =
+            "⚡ Multiplicador ×" + poder;
+
+        poderesAtivosDiv.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   SALVAR
+========================= */
+
+function salvar() {
+
+    localStorage.setItem(
+        "ovoCliques",
+        cliques
+    );
+
+
+    localStorage.setItem(
+        "ovoMultiplicador",
+        multiplicador
+    );
+
+
+    localStorage.setItem(
+        "ovoPoderes",
+        JSON.stringify(poderesAtivos)
+    );
+
+}
+
+
+/* =========================
+   FORMATAR NÚMEROS
+========================= */
+
+function formatarNumero(numero) {
+
+    return numero.toLocaleString("pt-BR");
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
+
+atualizar();
+
+</script>
 
 </body>
 </html>
