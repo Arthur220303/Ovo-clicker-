@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -429,99 +429,43 @@ header {
 }
 
 
-/* =========================
+/* =====================================================
    ADIÇÃO — AUTO CLICKER
-========================= */
+===================================================== */
 
 .auto-clicker-box {
     margin-top: 18px;
-    padding: 12px;
-    background: #181818;
-    border: 1px solid #444;
-    border-radius: 12px;
-    text-align: center;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.15);
 }
 
 .auto-clicker-box h3 {
     margin: 0 0 10px;
-    font-size: 17px;
-}
-
-.auto-status {
-    color: #aaa;
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.auto-botao {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #555;
-    border-radius: 9px;
-    background: #242424;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.auto-botao:hover {
-    background: #333;
-}
-
-.auto-botao.ativo {
-    border-color: #4caf50;
-    background: #16351b;
-}
-
-.auto-velocidade {
-    margin-top: 8px;
-    color: #ffd84d;
-    font-size: 13px;
+    font-size: 18px;
 }
 
 .auto-poder {
+    margin-bottom: 8px;
+}
+
+.auto-poder button,
+.auto-controle button {
     width: 100%;
-    margin-top: 8px;
-    padding: 9px;
-    border: 1px solid #444;
-    border-radius: 9px;
-    background: #202020;
-    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
-    text-align: left;
-}
-
-.auto-poder:hover {
-    background: #303030;
-}
-
-.auto-poder.comprado {
-    border-color: #4caf50;
-}
-
-.auto-poder.bloqueado {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.auto-poder-titulo {
-    display: block;
-    font-size: 14px;
     font-weight: bold;
 }
 
-.auto-poder-preco {
-    display: block;
-    margin-top: 4px;
-    color: #ffd84d;
-    font-size: 12px;
+.auto-controle {
+    margin-top: 10px;
 }
 
-.auto-poder-efeito {
-    display: block;
-    margin-top: 4px;
-    color: #aaa;
-    font-size: 11px;
+.auto-status {
+    margin: 8px 0;
+    font-size: 13px;
+    opacity: .9;
 }
 
 </style>
@@ -620,6 +564,29 @@ header {
             </div>
 
         </div>
+
+
+<!-- =====================================================
+     ADIÇÃO — AUTO CLICKER
+===================================================== -->
+
+<div class="auto-clicker-box">
+
+    <h3>🤖 Auto Clicker</h3>
+
+    <div class="auto-status" id="statusAutoClicker">
+        Auto Clicker: desligado
+    </div>
+
+    <div id="listaPoderesAuto"></div>
+
+    <div class="auto-controle">
+        <button id="botaoAutoClicker" onclick="alternarAutoClicker()">
+            ▶️ Ativar Auto Clicker
+        </button>
+    </div>
+
+</div>
 
     </div>
 
@@ -893,24 +860,6 @@ const poderes = [
         retrocesso: 5
     }
 
-
-    ,
-    {
-        id: "x15plus",
-        nome: "💫 Multiplicador ×15",
-        multiplicador: 15,
-        preco: 150000,
-        retrocesso: 6
-    },
-
-    {
-        id: "x25",
-        nome: "💎 Multiplicador ×25",
-        multiplicador: 25,
-        preco: 500000,
-        retrocesso: 7
-    }
-
 ];
 
 
@@ -928,77 +877,6 @@ let poderesComprados =
     JSON.parse(
         localStorage.getItem("ovo_poderes")
     ) || [];
-
-
-
-/* =====================================================
-   ADIÇÃO — ESTADO DO AUTO CLICKER
-===================================================== */
-
-const poderesAuto = [
-    {
-        id: "auto4",
-        nome: "🤖 Auto Clicker",
-        preco: 100,
-        intervalo: 4000,
-        texto: "1 toque a cada 4 segundos"
-    },
-    {
-        id: "auto3",
-        nome: "⚡ Auto Clicker II",
-        preco: 500,
-        intervalo: 3000,
-        texto: "1 toque a cada 3 segundos"
-    },
-    {
-        id: "auto2",
-        nome: "🔥 Auto Clicker III",
-        preco: 2500,
-        intervalo: 2000,
-        texto: "1 toque a cada 2 segundos"
-    },
-    {
-        id: "auto1",
-        nome: "🚀 Auto Clicker IV",
-        preco: 10000,
-        intervalo: 1000,
-        texto: "1 toque a cada 1 segundo"
-    },
-    {
-        id: "auto05",
-        nome: "💥 Auto Clicker V",
-        preco: 50000,
-        intervalo: 500,
-        texto: "1 toque a cada 0,5 segundo"
-    },
-    {
-        id: "auto025",
-        nome: "🌟 Auto Clicker VI",
-        preco: 250000,
-        intervalo: 250,
-        texto: "1 toque a cada 0,25 segundo"
-    }
-];
-
-let autoPoderesComprados =
-    JSON.parse(localStorage.getItem("ovo_auto_poderes")) || [];
-
-let autoClickerAtivo =
-    localStorage.getItem("ovo_auto_ativo") === "true";
-
-let intervaloAutoClicker = null;
-
-const botaoAutoClicker =
-    document.getElementById("botaoAutoClicker");
-
-const autoStatus =
-    document.getElementById("autoStatus");
-
-const autoVelocidade =
-    document.getElementById("autoVelocidade");
-
-const listaPoderesAuto =
-    document.getElementById("listaPoderesAuto");
 
 
 /* =====================================================
@@ -1087,268 +965,6 @@ function descobrirFase() {
     }
 
     return indice;
-
-}
-
-
-
-/* =====================================================
-   ADIÇÃO — AUTO CLICKER
-===================================================== */
-
-function intervaloAutoAtual() {
-
-    let intervalo = 4000;
-
-    autoPoderesComprados.forEach(id => {
-
-        const poder =
-            poderesAuto.find(p => p.id === id);
-
-        if (poder && poder.intervalo < intervalo) {
-            intervalo = poder.intervalo;
-        }
-
-    });
-
-    return intervalo;
-}
-
-
-function formatarIntervaloAuto(intervalo) {
-
-    if (intervalo >= 1000) {
-
-        const segundos = intervalo / 1000;
-
-        return segundos + " segundo" +
-            (segundos === 1 ? "" : "s");
-
-    }
-
-    return intervalo + " ms";
-
-}
-
-
-function executarToqueAutomatico() {
-
-    const multiplicador =
-        calcularMultiplicador();
-
-    toques += multiplicador;
-
-    if (toques > 1000000) {
-        toques = 1000000;
-    }
-
-    moedas += multiplicador;
-
-    salvar();
-
-    atualizar();
-
-}
-
-
-function iniciarAutoClicker() {
-
-    pararAutoClicker();
-
-    if (!autoClickerAtivo) {
-        return;
-    }
-
-    intervaloAutoClicker =
-        setInterval(
-            executarToqueAutomatico,
-            intervaloAutoAtual()
-        );
-
-}
-
-
-function pararAutoClicker() {
-
-    if (intervaloAutoClicker !== null) {
-
-        clearInterval(intervaloAutoClicker);
-
-        intervaloAutoClicker = null;
-
-    }
-
-}
-
-
-function alternarAutoClicker() {
-
-    if (autoPoderesComprados.length === 0) {
-
-        alert(
-            "Compre o Auto Clicker primeiro para ativá-lo."
-        );
-
-        return;
-
-    }
-
-    autoClickerAtivo = !autoClickerAtivo;
-
-    if (autoClickerAtivo) {
-        iniciarAutoClicker();
-    } else {
-        pararAutoClicker();
-    }
-
-    salvar();
-
-    atualizarAutoClicker();
-
-}
-
-
-function comprarPoderAuto(id) {
-
-    const poder =
-        poderesAuto.find(p => p.id === id);
-
-    if (!poder) {
-        return;
-    }
-
-    if (autoPoderesComprados.includes(id)) {
-        return;
-    }
-
-    if (moedas < poder.preco) {
-
-        alert(
-            "Você precisa de " +
-            formatar(poder.preco) +
-            " moedas para comprar este poder."
-        );
-
-        return;
-
-    }
-
-    moedas -= poder.preco;
-
-    autoPoderesComprados.push(id);
-
-    salvar();
-
-    atualizar();
-
-    if (autoClickerAtivo) {
-        iniciarAutoClicker();
-    }
-
-}
-
-
-function renderizarPoderesAuto() {
-
-    if (!listaPoderesAuto) {
-        return;
-    }
-
-    listaPoderesAuto.innerHTML = "";
-
-    poderesAuto.forEach((poder, indice) => {
-
-        const comprado =
-            autoPoderesComprados.includes(poder.id);
-
-        const anterior =
-            indice === 0 ||
-            autoPoderesComprados.includes(
-                poderesAuto[indice - 1].id
-            );
-
-        const div =
-            document.createElement("button");
-
-        div.className = "auto-poder";
-
-        if (comprado) {
-            div.classList.add("comprado");
-        }
-
-        if (!anterior && !comprado) {
-            div.classList.add("bloqueado");
-        }
-
-        div.disabled =
-            (!anterior && !comprado) ||
-            comprado;
-
-        div.innerHTML = `
-            <span class="auto-poder-titulo">
-                ${comprado ? "✅" : "🤖"} ${poder.nome}
-            </span>
-
-            <span class="auto-poder-preco">
-                ${
-                    comprado
-                    ? "COMPRADO"
-                    : "🪙 " + formatar(poder.preco)
-                }
-            </span>
-
-            <span class="auto-poder-efeito">
-                ${poder.texto}
-            </span>
-        `;
-
-        if (!comprado && anterior) {
-
-            div.onclick = function() {
-                comprarPoderAuto(poder.id);
-            };
-
-        }
-
-        listaPoderesAuto.appendChild(div);
-
-    });
-
-}
-
-
-function atualizarAutoClicker() {
-
-    const intervalo =
-        intervaloAutoAtual();
-
-    autoVelocidade.textContent =
-        "Intervalo: " +
-        formatarIntervaloAuto(intervalo);
-
-    if (autoClickerAtivo) {
-
-        autoStatus.textContent =
-            "🟢 Ativo";
-
-        botaoAutoClicker.textContent =
-            "🔴 Desativar Auto Clicker";
-
-        botaoAutoClicker.classList.add("ativo");
-
-    } else {
-
-        autoStatus.textContent =
-            "🔴 Desativado";
-
-        botaoAutoClicker.textContent =
-            "🤖 Ativar Auto Clicker";
-
-        botaoAutoClicker.classList.remove("ativo");
-
-    }
-
-    renderizarPoderesAuto();
 
 }
 
@@ -1835,9 +1451,6 @@ function atualizar() {
 
     renderizarEvolucoes();
 
-    /* ADIÇÃO — atualizar Auto Clicker */
-    atualizarAutoClicker();
-
 }
 
 
@@ -1864,19 +1477,6 @@ function salvar() {
         JSON.stringify(
             poderesComprados
         )
-    );
-
-    /* ADIÇÃO — salvar Auto Clicker */
-    localStorage.setItem(
-        "ovo_auto_poderes",
-        JSON.stringify(
-            autoPoderesComprados
-        )
-    );
-
-    localStorage.setItem(
-        "ovo_auto_ativo",
-        autoClickerAtivo
     );
 
 }
@@ -1923,21 +1523,6 @@ function resetarJogo() {
         "ovo_poderes"
     );
 
-    /* ADIÇÃO — resetar Auto Clicker */
-    localStorage.removeItem(
-        "ovo_auto_poderes"
-    );
-
-    localStorage.removeItem(
-        "ovo_auto_ativo"
-    );
-
-    pararAutoClicker();
-
-    autoPoderesComprados = [];
-
-    autoClickerAtivo = false;
-
 
     toques = 0;
 
@@ -1957,13 +1542,410 @@ function resetarJogo() {
 
 atualizar();
 
-/* ADIÇÃO — restaurar estado do Auto Clicker */
-atualizarAutoClicker();
+</script>
 
-if (autoClickerAtivo && autoPoderesComprados.length > 0) {
-    iniciarAutoClicker();
+
+<script>
+
+/* =====================================================
+   ADIÇÃO — AUTO CLICKER E PODERES DO AUTO CLICKER
+   Este bloco foi apenas acrescentado ao jogo original.
+===================================================== */
+
+const poderesAuto = [
+    {
+        id: "auto4",
+        nome: "🤖 Auto Clicker × 4s",
+        preco: 100,
+        intervalo: 4000,
+        descricao: "1 toque automático a cada 4 segundos"
+    },
+    {
+        id: "auto3",
+        nome: "⚡ Auto Clicker × 3s",
+        preco: 500,
+        intervalo: 3000,
+        descricao: "Diminui o tempo para 3 segundos"
+    },
+    {
+        id: "auto2",
+        nome: "⚡ Auto Clicker × 2s",
+        preco: 2500,
+        intervalo: 2000,
+        descricao: "Diminui o tempo para 2 segundos"
+    },
+    {
+        id: "auto1",
+        nome: "⚡ Auto Clicker × 1s",
+        preco: 10000,
+        intervalo: 1000,
+        descricao: "Diminui o tempo para 1 segundo"
+    },
+    {
+        id: "auto05",
+        nome: "🔥 Auto Clicker × 0,5s",
+        preco: 50000,
+        intervalo: 500,
+        descricao: "Diminui o tempo para meio segundo"
+    },
+    {
+        id: "auto025",
+        nome: "🚀 Auto Clicker × 0,25s",
+        preco: 250000,
+        intervalo: 250,
+        descricao: "Diminui o tempo para 0,25 segundo"
+    }
+];
+
+let poderesAutoComprados = JSON.parse(
+    localStorage.getItem("ovo_poderes_auto") || "[]"
+);
+
+let autoClickerAtivo = false;
+let intervaloAutoClicker = null;
+
+function salvarEstadoAutoClicker() {
+    localStorage.setItem(
+        "ovo_poderes_auto",
+        JSON.stringify(poderesAutoComprados)
+    );
 }
 
+function obterPoderAutoAtual() {
+
+    if (poderesAutoComprados.length === 0) {
+        return null;
+    }
+
+    return poderesAuto[poderesAutoComprados.length - 1];
+}
+
+function formatarTempoAuto(ms) {
+
+    if (ms >= 1000) {
+        const segundos = ms / 1000;
+        return segundos.toString().replace(".", ",") + "s";
+    }
+
+    return (ms / 1000).toString().replace(".", ",") + "s";
+}
+
+function executarToqueAuto() {
+
+    if (!obterPoderAutoAtual()) {
+        return;
+    }
+
+    const multiplicador = calcularMultiplicador();
+
+    toques += multiplicador;
+    moedas += multiplicador;
+
+    atualizar();
+    salvarJogo();
+}
+
+function iniciarAutoClicker() {
+
+    const poderAtual = obterPoderAutoAtual();
+
+    if (!poderAtual) {
+        return;
+    }
+
+    pararAutoClicker();
+
+    autoClickerAtivo = true;
+
+    intervaloAutoClicker = setInterval(
+        executarToqueAuto,
+        poderAtual.intervalo
+    );
+
+    atualizarAutoClicker();
+}
+
+function pararAutoClicker() {
+
+    if (intervaloAutoClicker !== null) {
+        clearInterval(intervaloAutoClicker);
+        intervaloAutoClicker = null;
+    }
+
+    autoClickerAtivo = false;
+
+    atualizarAutoClicker();
+}
+
+function alternarAutoClicker() {
+
+    if (!obterPoderAutoAtual()) {
+        mensagem.textContent =
+            "Compre primeiro o poder do Auto Clicker!";
+        return;
+    }
+
+    if (autoClickerAtivo) {
+        pararAutoClicker();
+    } else {
+        iniciarAutoClicker();
+    }
+}
+
+function comprarPoderAuto(indice) {
+
+    const poder = poderesAuto[indice];
+
+    if (!poder) {
+        return;
+    }
+
+    if (indice > 0 && !poderesAutoComprados.includes(poderesAuto[indice - 1].id)) {
+        mensagem.textContent =
+            "Compre primeiro o poder anterior do Auto Clicker!";
+        return;
+    }
+
+    if (poderesAutoComprados.includes(poder.id)) {
+        return;
+    }
+
+    if (moedas < poder.preco) {
+        mensagem.textContent =
+            "Moedas insuficientes para esse poder!";
+        return;
+    }
+
+    moedas -= poder.preco;
+
+    poderesAutoComprados.push(poder.id);
+
+    salvarEstadoAutoClicker();
+
+    mensagem.textContent =
+        "Poder do Auto Clicker comprado!";
+
+    atualizar();
+
+    if (autoClickerAtivo) {
+        iniciarAutoClicker();
+    }
+
+    renderizarPoderesAuto();
+    atualizarAutoClicker();
+}
+
+function renderizarPoderesAuto() {
+
+    const lista = document.getElementById("listaPoderesAuto");
+
+    if (!lista) {
+        return;
+    }
+
+    lista.innerHTML = "";
+
+    poderesAuto.forEach((poder, indice) => {
+
+        const comprado =
+            poderesAutoComprados.includes(poder.id);
+
+        const anteriorComprado =
+            indice === 0 ||
+            poderesAutoComprados.includes(
+                poderesAuto[indice - 1].id
+            );
+
+        const div = document.createElement("div");
+
+        div.className = "auto-poder";
+
+        const botao = document.createElement("button");
+
+        if (comprado) {
+
+            botao.textContent =
+                "✅ " + poder.nome +
+                " — " + formatarTempoAuto(poder.intervalo);
+
+            botao.disabled = true;
+
+        } else if (!anteriorComprado) {
+
+            botao.textContent =
+                "🔒 " + poder.nome;
+
+            botao.disabled = true;
+
+        } else {
+
+            botao.textContent =
+                poder.nome +
+                " — 🪙 " + poder.preco;
+
+            botao.onclick = function() {
+                comprarPoderAuto(indice);
+            };
+        }
+
+        div.appendChild(botao);
+
+        const descricao = document.createElement("div");
+
+        descricao.style.fontSize = "12px";
+        descricao.style.marginTop = "3px";
+        descricao.style.opacity = "0.75";
+        descricao.textContent = poder.descricao;
+
+        div.appendChild(descricao);
+
+        lista.appendChild(div);
+    });
+}
+
+function atualizarAutoClicker() {
+
+    const status = document.getElementById("statusAutoClicker");
+    const botao = document.getElementById("botaoAutoClicker");
+
+    if (!status || !botao) {
+        return;
+    }
+
+    const poderAtual = obterPoderAutoAtual();
+
+    if (!poderAtual) {
+
+        status.textContent =
+            "Auto Clicker: compre o primeiro poder";
+
+        botao.textContent =
+            "🔒 Auto Clicker bloqueado";
+
+        botao.disabled = true;
+
+        return;
+    }
+
+    botao.disabled = false;
+
+    if (autoClickerAtivo) {
+
+        status.textContent =
+            "Auto Clicker: 🟢 ligado — " +
+            formatarTempoAuto(poderAtual.intervalo) +
+            " por toque";
+
+        botao.textContent =
+            "⏹️ Desativar Auto Clicker";
+
+    } else {
+
+        status.textContent =
+            "Auto Clicker: 🔴 desligado — " +
+            formatarTempoAuto(poderAtual.intervalo) +
+            " por toque";
+
+        botao.textContent =
+            "▶️ Ativar Auto Clicker";
+    }
+}
+
+/* Renderiza os poderes adicionados ao jogo original. */
+renderizarPoderesAuto();
+atualizarAutoClicker();
+
+</script>
+
+
+<script>
+/* ADIÇÃO: ligar/desligar multiplicadores comprados e reset completo. */
+const CHAVE_PODERES_LIGADOS = "ovo_poderes_ligados";
+let ligadosSalvos = localStorage.getItem(CHAVE_PODERES_LIGADOS);
+let poderesLigados = ligadosSalvos === null
+    ? [...poderesComprados]
+    : JSON.parse(ligadosSalvos);
+
+function sincronizarPoderesLigados() {
+    // Compras novas começam ligadas; desligados antigos continuam desligados.
+    const salvos = JSON.parse(localStorage.getItem("ovo_poderes_conhecidos") || "[]");
+    poderesComprados.forEach(id => {
+        if (!salvos.includes(id) && !poderesLigados.includes(id)) poderesLigados.push(id);
+    });
+    poderesLigados = poderesLigados.filter(id => poderesComprados.includes(id));
+    localStorage.setItem("ovo_poderes_conhecidos", JSON.stringify(poderesComprados));
+    localStorage.setItem(CHAVE_PODERES_LIGADOS, JSON.stringify(poderesLigados));
+}
+sincronizarPoderesLigados();
+
+// Sobrescreve a função sem apagar a implementação original.
+calcularMultiplicador = function() {
+    return poderes.reduce((total, poder) =>
+        poderesComprados.includes(poder.id) && poderesLigados.includes(poder.id)
+            ? total * poder.multiplicador : total, 1);
+};
+
+function alternarPoderComprado(id) {
+    if (!poderesComprados.includes(id)) return;
+    poderesLigados = poderesLigados.includes(id)
+        ? poderesLigados.filter(item => item !== id)
+        : [...poderesLigados, id];
+    localStorage.setItem(CHAVE_PODERES_LIGADOS, JSON.stringify(poderesLigados));
+    atualizar();
+}
+
+const renderizarPoderesAntesDosBotoes = renderizarPoderes;
+renderizarPoderes = function() {
+    sincronizarPoderesLigados();
+    renderizarPoderesAntesDosBotoes();
+    // Cada cartão comprado já é um botão; reutilizá-lo evita botão dentro de botão.
+    const cartoes = listaPoderes.querySelectorAll(".poder");
+    poderes.forEach((poder, i) => {
+        if (!poderesComprados.includes(poder.id) || !cartoes[i]) return;
+        const ligado = poderesLigados.includes(poder.id);
+        const cartao = cartoes[i];
+        cartao.onclick = () => alternarPoderComprado(poder.id);
+        cartao.setAttribute("aria-pressed", String(ligado));
+        const preco = cartao.querySelector(".poder-preco");
+        const efeito = cartao.querySelector(".poder-efeito");
+        if (preco) preco.textContent = ligado ? "🟢 ATIVO — DESATIVAR" : "🔴 DESATIVADO — ATIVAR";
+        if (efeito) efeito.textContent = "Comprado para sempre. Clique para " + (ligado ? "desativar" : "ativar") + ".";
+        cartao.style.opacity = ligado ? "1" : ".65";
+    });
+};
+
+const renderizarAtivosAnterior = renderizarPoderesAtivos;
+renderizarPoderesAtivos = function() {
+    renderizarAtivosAnterior();
+    poderesAtivos.querySelectorAll(".poder-ativo").forEach((cartao, i) => {
+        const id = poderesComprados[i];
+        const ligado = poderesLigados.includes(id);
+        const estado = cartao.querySelector("small");
+        if (estado) estado.textContent = ligado ? "🟢 Ativo" : "🔴 Desativado";
+        cartao.style.opacity = ligado ? "1" : ".6";
+    });
+};
+
+// Substitui somente o comportamento do botão Reiniciar jogo.
+resetarJogo = function() {
+    if (!confirm("Reiniciar o jogo do zero? Todos os cliques, moedas e poderes serão apagados.")) return;
+    pararAutoClicker();
+    toques = 0;
+    moedas = 0;
+    poderesComprados = [];
+    poderesAutoComprados = [];
+    poderesLigados = [];
+    ["ovo_toques", "ovo_moedas", "ovo_poderes", "ovo_poderes_auto",
+     CHAVE_PODERES_LIGADOS, "ovo_poderes_conhecidos", "ovo_poderes_manuais_ativos"]
+        .forEach(chave => localStorage.removeItem(chave));
+    salvar();
+    sincronizarPoderesLigados();
+    atualizar();
+    renderizarPoderesAuto();
+    atualizarAutoClicker();
+};
+
+atualizar();
 </script>
 
 </body>
