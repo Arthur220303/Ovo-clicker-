@@ -1,79 +1,188 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Ovo Clicker</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    <meta name="description" content="Clique no ovo e descubra até onde ele pode evoluir.">
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: #f5f5f5;
-            font-family: Arial, sans-serif;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            margin-top: 30px;
-            margin-bottom: 10px;
-        }
-
-        #contador {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        #ovo {
-            font-size: 150px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-
-            transition: transform 0.1s;
-        }
-
-        #ovo:active {
-            transform: translate(-50%, -50%) scale(0.92);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>🥚 Ovo Clicker</h1>
+    <header class="topo">
+        <div class="titulo">
+            <span>🥚</span>
+            <h1>Ovo Clicker</h1>
+        </div>
 
-    <div id="contador">
-        Cliques: <span id="numero">0</span>
-    </div>
+        <div class="estatisticas">
+            <div class="estatistica">
+                <span class="rotulo">Cliques</span>
+                <strong id="contador">0</strong>
+            </div>
 
-    <button id="ovo">🥚</button>
+            <div class="estatistica">
+                <span class="rotulo">Idade</span>
+                <strong id="idade">0</strong>
+            </div>
+        </div>
+    </header>
 
-    <script>
-        let cliques = 0;
 
-        const ovo = document.getElementById("ovo");
-        const numero = document.getElementById("numero");
+    <main class="jogo">
 
-        ovo.addEventListener("click", function() {
-            cliques++;
-            numero.textContent = cliques;
-        });
-    </script>
+        <section class="area-ovo">
+
+            <div class="fase" id="fase">
+                Ovo novo
+            </div>
+
+            <button id="ovo" class="ovo" aria-label="Clique no ovo">
+                🥚
+            </button>
+
+            <p class="instrucao">
+                Clique no ovo para fazê-lo evoluir
+            </p>
+
+            <div class="progresso-container">
+
+                <div class="progresso-texto">
+                    <span>Próxima evolução</span>
+                    <span id="proximo">10</span>
+                </div>
+
+                <div class="barra">
+                    <div id="barraProgresso" class="barra-progresso"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="informacoes">
+
+            <div class="cartao">
+                <span class="icone">🥚</span>
+
+                <div>
+                    <small>Estado atual</small>
+                    <strong id="estado">Ovo inteiro</strong>
+                </div>
+            </div>
+
+
+            <div class="cartao">
+                <span class="icone">🌱</span>
+
+                <div>
+                    <small>Próxima fase</small>
+                    <strong id="proximaFase">Ovo rachado</strong>
+                </div>
+            </div>
+
+
+            <div class="cartao">
+                <span class="icone">🏆</span>
+
+                <div>
+                    <small>Objetivo final</small>
+                    <strong>1.000.000 cliques</strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="evolucoes">
+
+            <h2>🧬 Evolução</h2>
+
+            <div id="listaEvolucoes" class="lista-evolucoes">
+
+                <div class="evolucao ativa">
+                    <span>🥚</span>
+                    <div>
+                        <strong>Ovo</strong>
+                        <small>0 cliques</small>
+                    </div>
+                </div>
+
+                <div class="evolucao bloqueada">
+                    <span>❓</span>
+                    <div>
+                        <strong>Desconhecido</strong>
+                        <small>10 cliques</small>
+                    </div>
+                </div>
+
+                <div class="evolucao bloqueada">
+                    <span>❓</span>
+                    <div>
+                        <strong>Desconhecido</strong>
+                        <small>50 cliques</small>
+                    </div>
+                </div>
+
+                <div class="evolucao bloqueada">
+                    <span>❓</span>
+                    <div>
+                        <strong>Desconhecido</strong>
+                        <small>100 cliques</small>
+                    </div>
+                </div>
+
+                <div class="evolucao bloqueada">
+                    <span>❓</span>
+                    <div>
+                        <strong>Desconhecido</strong>
+                        <small>1.000 cliques</small>
+                    </div>
+                </div>
+
+                <div class="evolucao bloqueada">
+                    <span>❓</span>
+                    <div>
+                        <strong>Desconhecido</strong>
+                        <small>10.000 cliques</small>
+                    </div>
+                </div>
+
+                <div class="evolucao bloqueada">
+                    <span>❓</span>
+                    <div>
+                        <strong>Desconhecido</strong>
+                        <small>100.000 cliques</small>
+                    </div>
+                </div>
+
+                <div class="evolucao bloqueada">
+                    <span>🏆</span>
+                    <div>
+                        <strong>Forma final</strong>
+                        <small>1.000.000 cliques</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>🥚 Cada clique muda o destino do ovo.</p>
+    </footer>
+
+
+    <script src="script.js"></script>
 
 </body>
 </html>
