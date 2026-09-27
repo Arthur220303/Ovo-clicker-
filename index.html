@@ -3,475 +3,279 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Ovo Clicker</title>
 
 <style>
-
 * {
     box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
     min-height: 100vh;
-    background:
-        radial-gradient(circle at 50% 35%, #292929 0%, #111 45%, #050505 100%);
+    background: radial-gradient(circle at center, #252525, #0b0b0b);
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/* =========================
-   TOPO
-========================= */
-
-header {
+    font-family: Arial, sans-serif;
     text-align: center;
-    padding: 22px 15px 10px;
 }
 
-.logo {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 8px;
+h1 {
+    margin: 20px 0 5px;
+    font-size: 32px;
 }
 
-.contador {
-    font-size: 25px;
-    font-weight: bold;
+#contador,
+#idade,
+#moedas {
+    font-size: 20px;
+    margin-top: 6px;
 }
 
-.idade {
-    color: #999;
-    margin-top: 5px;
+#moedas {
+    color: #ffd700;
 }
-
-.moedas {
-    margin-top: 10px;
-    color: #ffd84d;
-    font-size: 19px;
-    font-weight: bold;
-}
-
-/* =========================
-   JOGO
-========================= */
 
 .area-jogo {
+    min-height: 65vh;
     position: relative;
-    min-height: 650px;
-
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    padding: 30px;
 }
 
-/* =========================
-   PAINÉIS LATERAIS
-========================= */
-
-.painel {
-    position: absolute;
-    top: 40px;
-
-    width: 220px;
-
-    background: rgba(18, 18, 18, 0.95);
-
-    border: 1px solid #444;
-    border-radius: 16px;
-
-    padding: 16px;
-
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-}
-
-.painel h2 {
-    text-align: center;
-    margin: 0 0 15px;
-    font-size: 20px;
-}
-
-.painel-esquerda {
-    left: 25px;
-}
-
-.painel-direita {
-    right: 25px;
-}
-
-/* =========================
-   BOTÕES DE PODER
-========================= */
-
-.poder {
-    width: 100%;
-
-    margin-bottom: 10px;
-    padding: 13px;
-
-    border: 1px solid #444;
-    border-radius: 12px;
-
-    background: #202020;
-    color: white;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.poder:hover {
-    background: #303030;
-    transform: translateY(-2px);
-}
-
-.poder:active {
-    transform: scale(0.97);
-}
-
-.poder.comprado {
-    border-color: #4caf50;
-}
-
-.poder.bloqueado {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.poder-titulo {
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.poder-preco {
-    display: block;
-    margin-top: 5px;
-    color: #ffd84d;
-    font-size: 13px;
-}
-
-.poder-efeito {
-    display: block;
-    margin-top: 5px;
-    color: #aaa;
-    font-size: 12px;
-}
-
-/* =========================
-   PODERES ATIVOS
-========================= */
-
-.poder-ativo {
-    background: #202020;
-    border: 1px solid #555;
-
-    border-radius: 10px;
-
-    padding: 12px;
-    margin-bottom: 8px;
-
-    text-align: center;
-}
-
-.sem-poder {
-    text-align: center;
-    color: #777;
-    font-size: 14px;
-}
-
-/* =========================
-   CENTRO
-========================= */
-
-.fase {
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: 10px;
-
-    text-align: center;
-}
-
-.numero-fase {
-    color: #888;
-    font-size: 14px;
-    margin-bottom: 15px;
+.centro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #ovo {
     border: none;
-    outline: none;
-
     background: transparent;
-
-    font-size: 190px;
-
+    font-size: 180px;
     cursor: pointer;
-
-    user-select: none;
-
-    transition:
-        transform 0.12s,
-        filter 0.2s;
-}
-
-#ovo:hover {
-    filter: brightness(1.15);
-    transform: scale(1.03);
+    transition: transform 0.1s;
 }
 
 #ovo:active {
-    transform: scale(0.88);
+    transform: scale(0.9);
 }
 
-.mensagem {
-    margin-top: 5px;
-
-    color: #aaa;
-
-    font-size: 18px;
-
-    text-align: center;
-
-    max-width: 500px;
-}
-
-.multiplicador {
-    margin-top: 12px;
-
-    font-size: 20px;
-    font-weight: bold;
-
+#fase {
+    font-size: 23px;
+    margin-bottom: 15px;
     color: #ddd;
 }
 
-/* =========================
-   BARRA
-========================= */
-
-.barra-container {
-    width: 340px;
-    max-width: 90%;
-
-    height: 14px;
-
-    margin-top: 20px;
-
-    background: #292929;
-
+.barra {
+    width: 300px;
+    height: 12px;
+    background: #333;
     border-radius: 20px;
-
     overflow: hidden;
+    margin-top: 20px;
 }
 
-.barra {
-    height: 100%;
-
+#progresso {
     width: 0%;
-
-    background: linear-gradient(
-        90deg,
-        #ffffff,
-        #888
-    );
-
+    height: 100%;
+    background: white;
     transition: width 0.2s;
 }
 
-/* =========================
-   EVOLUÇÕES
-========================= */
-
-.evolucoes {
-    background: #0d0d0d;
-
-    border-top: 1px solid #333;
-
-    padding: 30px 20px 40px;
+#mensagem {
+    margin-top: 15px;
+    color: #aaa;
+    font-size: 17px;
 }
 
-.evolucoes h2 {
-    text-align: center;
+/* PAINÉIS */
 
+.painel {
+    position: absolute;
+    top: 20px;
+    width: 230px;
+    background: rgba(25,25,25,0.95);
+    border: 1px solid #444;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.painel-esquerdo {
+    left: 20px;
+}
+
+.painel-direito {
+    right: 20px;
+}
+
+.painel h2 {
     margin-top: 0;
-    margin-bottom: 25px;
+    font-size: 20px;
 }
 
-.lista-evolucoes {
-    max-width: 1250px;
+/* PODERES */
 
-    margin: auto;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(170px, 1fr));
-
-    gap: 12px;
-}
-
-.evolucao {
+.poder {
     background: #181818;
-
-    border: 1px solid #333;
-
-    border-radius: 12px;
-
-    padding: 14px;
-
-    text-align: center;
-
-    opacity: 0.35;
-
-    transition: 0.2s;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
-.evolucao.desbloqueada {
-    opacity: 1;
+.poder strong {
+    display: block;
+    margin-bottom: 5px;
 }
 
-.evolucao.atual {
-    border-color: white;
-
-    box-shadow:
-        0 0 15px rgba(255,255,255,0.15);
+.poder small {
+    color: #aaa;
 }
 
-.evolucao-emoji {
-    font-size: 38px;
-
-    margin-bottom: 7px;
-}
-
-.evolucao-nome {
+.poder button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
     font-weight: bold;
+}
 
+.comprar {
+    background: #ffd700;
+    color: #111;
+}
+
+.comprar:disabled {
+    background: #555;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.ativar {
+    background: #28a745;
+    color: white;
+}
+
+.desativar {
+    background: #b52b2b;
+    color: white;
+}
+
+/* AUTO CLICKER */
+
+.auto-box {
+    background: #181818;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+
+#botaoAuto {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    background: #555;
+    color: white;
+}
+
+#botaoAuto.ativo {
+    background: #28a745;
+}
+
+#velocidadeAuto {
+    margin-top: 8px;
+    color: #aaa;
     font-size: 14px;
 }
 
-.evolucao-nivel {
-    color: #888;
+/* EVOLUÇÕES */
 
-    font-size: 12px;
-
-    margin-top: 5px;
-}
-
-/* =========================
-   BOTÃO RESET
-========================= */
-
-.controles {
-    text-align: center;
-
+.evolucoes {
     padding: 20px;
 }
 
-.resetar {
-    background: #222;
+.evolucoes h2 {
+    margin-bottom: 15px;
+}
 
+.lista-fases {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.fase-card {
+    width: 150px;
+    background: #191919;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 10px;
     color: #aaa;
+}
 
-    border: 1px solid #444;
+.fase-card.desbloqueada {
+    border-color: #fff;
+    color: white;
+}
 
+.resetar {
+    margin: 20px;
+    padding: 10px 18px;
+    border: none;
     border-radius: 8px;
-
-    padding: 8px 15px;
-
+    background: #8b0000;
+    color: white;
     cursor: pointer;
 }
 
-.resetar:hover {
-    background: #333;
-}
-
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media (max-width: 950px) {
-
     .area-jogo {
-        padding-top: 20px;
+        flex-direction: column;
+        padding: 20px;
     }
 
     .painel {
         position: static;
-
         width: 90%;
-
-        max-width: 400px;
-
+        max-width: 350px;
         margin: 10px auto;
     }
 
-    .painel-esquerda,
-    .painel-direita {
-        left: auto;
-        right: auto;
-    }
-
-    .area-jogo {
-        display: flex;
+    .centro {
+        order: -1;
+        margin: 20px 0;
     }
 
     #ovo {
-        font-size: 150px;
+        font-size: 130px;
     }
-
 }
-
 </style>
 </head>
 
-
 <body>
 
+<h1>🥚 Ovo Clicker</h1>
 
-<!-- =========================
-     CABEÇALHO
-========================= -->
+<div id="contador">Toques: 0</div>
+<div id="idade">Idade do ovo: 0</div>
+<div id="moedas">🪙 Moedas: 0</div>
 
-<header>
+<div class="area-jogo">
 
-    <div class="logo">
-        🥚 Ovo Clicker
-    </div>
-
-    <div class="contador" id="contador">
-        Toques: 0
-    </div>
-
-    <div class="idade" id="idade">
-        Idade: 0
-    </div>
-
-    <div class="moedas" id="moedas">
-        🪙 Moedas: 0
-    </div>
-
-</header>
-
-
-<!-- =========================
-     ÁREA DO JOGO
-========================= -->
-
-<section class="area-jogo">
-
-
-    <!-- =====================
-         PODERES
-    ====================== -->
-
-    <div class="painel painel-esquerda">
+    <!-- PODERES MANUAIS -->
+    <div class="painel painel-esquerdo">
 
         <h2>⚡ Poderes</h2>
 
@@ -479,921 +283,335 @@ header {
 
     </div>
 
+    <!-- CENTRO -->
+    <div class="centro">
 
-    <!-- =====================
-         CENTRO
-    ====================== -->
+        <div id="fase">🥚 Ovo recém-nascido</div>
 
-    <div class="fase" id="fase">
-        Ovo recém-nascido
-    </div>
+        <button id="ovo">🥚</button>
 
-    <div class="numero-fase" id="numeroFase">
-        Fase 1 / 30
-    </div>
+        <div class="barra">
+            <div id="progresso"></div>
+        </div>
 
-    <button id="ovo">
-        🥚
-    </button>
-
-    <div class="mensagem" id="mensagem">
-        Clique no ovo!
-    </div>
-
-    <div class="multiplicador" id="multiplicador">
-        Multiplicador: ×1
-    </div>
-
-    <div class="barra-container">
-        <div class="barra" id="barra"></div>
-    </div>
-
-
-    <!-- =====================
-         PODERES ATIVOS
-    ====================== -->
-
-    <div class="painel painel-direita">
-
-        <h2>🔥 Ativos</h2>
-
-        <div id="poderesAtivos">
-
-            <div class="sem-poder">
-                Nenhum poder comprado
-            </div>
-
+        <div id="mensagem">
+            Clique no ovo!
         </div>
 
     </div>
 
+    <!-- AUTO CLICKER -->
+    <div class="painel painel-direito">
 
-</section>
+        <h2>🤖 Auto Clicker</h2>
 
+        <div class="auto-box">
 
-<!-- =========================
-     EVOLUÇÕES
-========================= -->
+            <button id="botaoAuto">
+                🤖 Ativar Auto Clicker
+            </button>
 
-<section class="evolucoes">
+            <div id="velocidadeAuto">
+                Velocidade: 1 toque a cada 4 segundos
+            </div>
 
-    <h2>📜 Linha de Evolução</h2>
+        </div>
 
-    <div
-        class="lista-evolucoes"
-        id="listaEvolucoes">
+        <h2>🔥 Poderes Ativos</h2>
+
+        <div id="poderesAtivos">
+            Nenhum poder ativo.
+        </div>
+
     </div>
-
-</section>
-
-
-<div class="controles">
-
-    <button
-        class="resetar"
-        onclick="resetarJogo()">
-
-        🔄 Reiniciar jogo
-
-    </button>
 
 </div>
 
+<!-- EVOLUÇÕES -->
+
+<div class="evolucoes">
+
+    <h2>🏆 Evoluções</h2>
+
+    <div class="lista-fases" id="listaFases"></div>
+
+</div>
+
+<button class="resetar" onclick="resetarJogo()">
+    🔄 Resetar jogo
+</button>
 
 <script>
 
-/* =====================================================
+/* =========================
    FASES
-===================================================== */
+========================= */
 
 const fases = [
 
-    {
-        nivel: 0,
-        emoji: "🥚",
-        nome: "Ovo recém-nascido"
-    },
-
-    {
-        nivel: 5,
-        emoji: "🥚",
-        nome: "Ovo começando a rachar"
-    },
-
-    {
-        nivel: 10,
-        emoji: "🥚",
-        nome: "Ovo rachado"
-    },
-
-    {
-        nivel: 25,
-        emoji: "🍳",
-        nome: "Ovo quebrado"
-    },
-
-    {
-        nivel: 50,
-        emoji: "🟡",
-        nome: "Gema"
-    },
-
-    {
-        nivel: 100,
-        emoji: "🟡",
-        nome: "Gema se desenvolvendo"
-    },
-
-    {
-        nivel: 150,
-        emoji: "🐣",
-        nome: "Nasce o pinto"
-    },
-
-    {
-        nivel: 300,
-        emoji: "🐥",
-        nome: "Pinto recém-nascido"
-    },
-
-    {
-        nivel: 1000,
-        emoji: "🐥",
-        nome: "Pinto crescendo"
-    },
-
-    {
-        nivel: 2500,
-        emoji: "🐤",
-        nome: "Pinto jovem"
-    },
-
-    {
-        nivel: 5000,
-        emoji: "🐤",
-        nome: "Ave jovem"
-    },
-
-    {
-        nivel: 10000,
-        emoji: "🐔",
-        nome: "Galinha jovem"
-    },
-
-    {
-        nivel: 20000,
-        emoji: "🐔",
-        nome: "Galinha crescendo"
-    },
-
-    {
-        nivel: 35000,
-        emoji: "🐔",
-        nome: "Galinha adulta"
-    },
-
-    {
-        nivel: 50000,
-        emoji: "🐓",
-        nome: "Ave evoluída"
-    },
-
-    {
-        nivel: 75000,
-        emoji: "🦃",
-        nome: "Ave gigante"
-    },
-
-    {
-        nivel: 100000,
-        emoji: "🦅",
-        nome: "Ave poderosa"
-    },
-
-    {
-        nivel: 150000,
-        emoji: "🦅",
-        nome: "Ave lendária"
-    },
-
-    {
-        nivel: 200000,
-        emoji: "🐉",
-        nome: "Criatura misteriosa"
-    },
-
-    {
-        nivel: 300000,
-        emoji: "🐉",
-        nome: "Dragão jovem"
-    },
-
-    {
-        nivel: 400000,
-        emoji: "🐲",
-        nome: "Dragão adulto"
-    },
-
-    {
-        nivel: 500000,
-        emoji: "🔥",
-        nome: "Dragão poderoso"
-    },
-
-    {
-        nivel: 600000,
-        emoji: "⚡",
-        nome: "Criatura elétrica"
-    },
-
-    {
-        nivel: 700000,
-        emoji: "🌑",
-        nome: "Criatura sombria"
-    },
-
-    {
-        nivel: 775000,
-        emoji: "🌟",
-        nome: "Criatura celestial"
-    },
-
-    {
-        nivel: 850000,
-        emoji: "💫",
-        nome: "Forma cósmica"
-    },
-
-    {
-        nivel: 900000,
-        emoji: "🌌",
-        nome: "Forma universal"
-    },
-
-    {
-        nivel: 950000,
-        emoji: "👑",
-        nome: "Forma suprema"
-    },
-
-    {
-        nivel: 990000,
-        emoji: "💎",
-        nome: "Forma final"
-    },
-
-    {
-        nivel: 1000000,
-        emoji: "🏆",
-        nome: "EVOLUÇÃO MÁXIMA"
-    }
+    {nivel:0, nome:"🥚 Ovo recém-nascido"},
+    {nivel:5, nome:"🥚 Ovo começando a rachar"},
+    {nivel:10, nome:"🥚 Ovo rachado"},
+    {nivel:25, nome:"🍳 Ovo quebrado"},
+    {nivel:50, nome:"🟡 Gema"},
+    {nivel:100, nome:"🟡 Gema se desenvolvendo"},
+    {nivel:150, nome:"🐣 Nasce o pinto"},
+    {nivel:300, nome:"🐥 Pinto recém-nascido"},
+    {nivel:1000, nome:"🐥 Pinto crescendo"},
+    {nivel:2500, nome:"🐤 Pinto jovem"},
+    {nivel:5000, nome:"🐤 Ave jovem"},
+    {nivel:10000, nome:"🐔 Galinha jovem"},
+    {nivel:20000, nome:"🐔 Galinha crescendo"},
+    {nivel:35000, nome:"🐔 Galinha adulta"},
+    {nivel:50000, nome:"🐓 Ave evoluída"},
+    {nivel:75000, nome:"🦃 Ave gigante"},
+    {nivel:100000, nome:"🦅 Ave poderosa"},
+    {nivel:150000, nome:"🦅 Ave lendária"},
+    {nivel:200000, nome:"🐉 Criatura misteriosa"},
+    {nivel:300000, nome:"🐉 Dragão jovem"},
+    {nivel:400000, nome:"🐲 Dragão adulto"},
+    {nivel:500000, nome:"🔥 Dragão poderoso"},
+    {nivel:600000, nome:"⚡ Criatura elétrica"},
+    {nivel:700000, nome:"🌑 Criatura sombria"},
+    {nivel:775000, nome:"🌟 Criatura celestial"},
+    {nivel:850000, nome:"💫 Forma cósmica"},
+    {nivel:900000, nome:"🌌 Forma universal"},
+    {nivel:950000, nome:"👑 Forma suprema"},
+    {nivel:990000, nome:"💎 Forma final"},
+    {nivel:1000000, nome:"🏆 EVOLUÇÃO MÁXIMA"}
 
 ];
 
 
-/* =====================================================
-   PODERES
-===================================================== */
+/* =========================
+   PODERES MANUAIS
+========================= */
 
 const poderes = [
 
     {
-        id: "x15",
-        nome: "⚡ Multiplicador ×1,5",
-        multiplicador: 1.5,
-        preco: 100,
-        retrocesso: 1
+        id:"x15",
+        nome:"⚡ Multiplicador ×1,5",
+        multiplicador:1.5,
+        preco:100,
+        retrocesso:1
     },
 
     {
-        id: "x2",
-        nome: "🔥 Multiplicador ×2",
-        multiplicador: 2,
-        preco: 500,
-        retrocesso: 2
+        id:"x2",
+        nome:"🔥 Multiplicador ×2",
+        multiplicador:2,
+        preco:500,
+        retrocesso:2
     },
 
     {
-        id: "x3",
-        nome: "💥 Multiplicador ×3",
-        multiplicador: 3,
-        preco: 2500,
-        retrocesso: 3
+        id:"x3",
+        nome:"💥 Multiplicador ×3",
+        multiplicador:3,
+        preco:2500,
+        retrocesso:3
     },
 
     {
-        id: "x5",
-        nome: "🚀 Multiplicador ×5",
-        multiplicador: 5,
-        preco: 10000,
-        retrocesso: 4
+        id:"x5",
+        nome:"🚀 Multiplicador ×5",
+        multiplicador:5,
+        preco:10000,
+        retrocesso:4
     },
 
     {
-        id: "x10",
-        nome: "🌟 Multiplicador ×10",
-        multiplicador: 10,
-        preco: 50000,
-        retrocesso: 5
+        id:"x10",
+        nome:"🌟 Multiplicador ×10",
+        multiplicador:10,
+        preco:50000,
+        retrocesso:5
+    },
+
+    {
+        id:"x20",
+        nome:"💎 Multiplicador ×20",
+        multiplicador:20,
+        preco:250000,
+        retrocesso:6
     }
 
 ];
 
 
-/* =====================================================
-   ESTADO DO JOGO
-===================================================== */
+/* =========================
+   AUTO CLICKER
+========================= */
 
-let toques =
-    Number(localStorage.getItem("ovo_toques")) || 0;
+const poderesAuto = [
 
-let moedas =
-    Number(localStorage.getItem("ovo_moedas")) || 0;
+    {
+        id:"auto1",
+        nome:"🤖 Auto Clicker",
+        preco:100,
+        intervalo:4000
+    },
+
+    {
+        id:"auto2",
+        nome:"⚡ Auto ×2",
+        preco:500,
+        intervalo:3000
+    },
+
+    {
+        id:"auto3",
+        nome:"🔥 Auto ×3",
+        preco:2500,
+        intervalo:2000
+    },
+
+    {
+        id:"auto4",
+        nome:"🚀 Auto ×4",
+        preco:10000,
+        intervalo:1000
+    },
+
+    {
+        id:"auto5",
+        nome:"💥 Auto ×5",
+        preco:50000,
+        intervalo:500
+    },
+
+    {
+        id:"auto6",
+        nome:"🌟 Auto ×6",
+        preco:250000,
+        intervalo:250
+    }
+
+];
+
+
+/* =========================
+   VARIÁVEIS
+========================= */
+
+let toques = Number(localStorage.getItem("ovo_toques")) || 0;
+
+let moedas = Number(localStorage.getItem("ovo_moedas")) || 0;
 
 let poderesComprados =
-    JSON.parse(
-        localStorage.getItem("ovo_poderes")
-    ) || [];
+    JSON.parse(localStorage.getItem("ovo_poderes")) || [];
+
+let poderesAtivos =
+    JSON.parse(localStorage.getItem("ovo_poderes_ativos")) || [];
+
+let poderesAutoComprados =
+    JSON.parse(localStorage.getItem("ovo_auto_poderes")) || [];
+
+let autoAtivo =
+    localStorage.getItem("ovo_auto_ativo") === "true";
+
+let intervaloAuto = null;
 
 
-/* =====================================================
+/* =========================
    ELEMENTOS
-===================================================== */
+========================= */
 
-const ovo =
-    document.getElementById("ovo");
+const ovo = document.getElementById("ovo");
 
-const contador =
-    document.getElementById("contador");
+const contador = document.getElementById("contador");
 
-const idade =
-    document.getElementById("idade");
+const idade = document.getElementById("idade");
 
-const moedasElemento =
-    document.getElementById("moedas");
+const moedasTexto = document.getElementById("moedas");
 
-const faseElemento =
-    document.getElementById("fase");
+const faseTexto = document.getElementById("fase");
 
-const numeroFase =
-    document.getElementById("numeroFase");
+const progresso = document.getElementById("progresso");
 
-const mensagem =
-    document.getElementById("mensagem");
+const mensagem = document.getElementById("mensagem");
 
-const multiplicadorElemento =
-    document.getElementById("multiplicador");
+const listaPoderes = document.getElementById("listaPoderes");
 
-const barra =
-    document.getElementById("barra");
-
-const listaPoderes =
-    document.getElementById("listaPoderes");
-
-const poderesAtivos =
+const poderesAtivosDiv =
     document.getElementById("poderesAtivos");
 
-const listaEvolucoes =
-    document.getElementById("listaEvolucoes");
+const listaFases =
+    document.getElementById("listaFases");
+
+const botaoAuto =
+    document.getElementById("botaoAuto");
+
+const velocidadeAuto =
+    document.getElementById("velocidadeAuto");
 
 
-/* =====================================================
-   MULTIPLICADOR ATUAL
-===================================================== */
+/* =========================
+   MULTIPLICADOR
+========================= */
 
 function calcularMultiplicador() {
 
-    let resultado = 1;
+    let multiplicador = 1;
 
-    poderesComprados.forEach(id => {
+    poderesAtivos.forEach(id => {
 
-        const poder =
-            poderes.find(p => p.id === id);
+        const poder = poderes.find(p => p.id === id);
 
         if (poder) {
-
-            resultado *= poder.multiplicador;
-
+            multiplicador *= poder.multiplicador;
         }
 
     });
 
-    return resultado;
-
+    return multiplicador;
 }
 
 
-/* =====================================================
-   FASE ATUAL
-===================================================== */
+/* =========================
+   DESCOBRIR FASE
+========================= */
 
 function descobrirFase() {
 
-    let indice = 0;
+    let atual = 0;
 
     for (let i = 0; i < fases.length; i++) {
 
         if (toques >= fases[i].nivel) {
-
-            indice = i;
-
+            atual = i;
         }
 
     }
 
-    return indice;
-
+    return atual;
 }
 
 
-/* =====================================================
-   CLICAR NO OVO
-===================================================== */
+/* =========================
+   DAR TOQUE
+========================= */
 
-ovo.addEventListener("click", function() {
+function darToque() {
 
     const multiplicador =
         calcularMultiplicador();
 
     toques += multiplicador;
 
-    if (toques > 1000000) {
-
-        toques = 1000000;
-
-    }
-
-    /*
-       Cada toque também gera uma pequena
-       quantidade de moedas.
-    */
-
     moedas += multiplicador;
 
     salvar();
 
-    atualizar();
-
-});
-
-
-/* =====================================================
-   COMPRAR PODER
-===================================================== */
-
-function comprarPoder(id) {
-
-    const poder =
-        poderes.find(p => p.id === id);
-
-    if (!poder) {
-        return;
-    }
-
-
-    /* Já comprado */
-
-    if (poderesComprados.includes(id)) {
-
-        return;
-
-    }
-
-
-    /* Não possui moedas */
-
-    if (moedas < poder.preco) {
-
-        alert(
-            "Você precisa de " +
-            formatar(poder.preco) +
-            " moedas para comprar este poder."
-        );
-
-        return;
-
-    }
-
-
-    /* Compra */
-
-    moedas -= poder.preco;
-
-    poderesComprados.push(id);
-
-
-    /*
-       MECÂNICA DE RETROCESSO
-
-       O poder comprado faz o jogador
-       voltar algumas fases.
-
-       Exemplo:
-
-       ×2 = volta 2 fases.
-    */
-
-    let faseAtual =
-        descobrirFase();
-
-    let novaFase =
-        Math.max(
-            0,
-            faseAtual - poder.retrocesso
-        );
-
-
-    /*
-       O jogador volta para o início
-       da nova fase.
-    */
-
-    toques =
-        fases[novaFase].nivel;
-
-
-    salvar();
-
-    atualizar();
+    atualizarTela();
 
 }
 
 
-/* =====================================================
-   RENDERIZAR PODERES
-===================================================== */
-
-function renderizarPoderes() {
-
-    listaPoderes.innerHTML = "";
-
-
-    poderes.forEach(poder => {
-
-        const comprado =
-            poderesComprados.includes(poder.id);
-
-
-        const div =
-            document.createElement("button");
-
-
-        div.className = "poder";
-
-
-        if (comprado) {
-
-            div.classList.add("comprado");
-
-        }
-
-
-        div.innerHTML = `
-
-            <span class="poder-titulo">
-
-                ${comprado ? "✅" : "⚡"}
-                ${poder.nome}
-
-            </span>
-
-            <span class="poder-preco">
-
-                ${comprado
-                    ? "COMPRADO"
-                    : "🪙 " + formatar(poder.preco)
-                }
-
-            </span>
-
-            <span class="poder-efeito">
-
-                ${
-                    comprado
-                    ? "Poder permanente"
-                    : "Volta " +
-                      poder.retrocesso +
-                      " fase(s)"
-                }
-
-            </span>
-
-        `;
-
-
-        div.onclick = function() {
-
-            comprarPoder(poder.id);
-
-        };
-
-
-        listaPoderes.appendChild(div);
-
-    });
-
-}
-
-
-/* =====================================================
-   PODERES ATIVOS
-===================================================== */
-
-function renderizarPoderesAtivos() {
-
-    poderesAtivos.innerHTML = "";
-
-
-    if (poderesComprados.length === 0) {
-
-        poderesAtivos.innerHTML = `
-
-            <div class="sem-poder">
-
-                Nenhum poder comprado
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    poderesComprados.forEach(id => {
-
-        const poder =
-            poderes.find(p => p.id === id);
-
-
-        if (!poder) {
-            return;
-        }
-
-
-        const div =
-            document.createElement("div");
-
-
-        div.className =
-            "poder-ativo";
-
-
-        div.innerHTML = `
-
-            <strong>
-                ${poder.nome}
-            </strong>
-
-            <br>
-
-            <small>
-                Ativo permanentemente
-            </small>
-
-        `;
-
-
-        poderesAtivos.appendChild(div);
-
-    });
-
-}
-
-
-/* =====================================================
-   RENDERIZAR EVOLUÇÕES
-===================================================== */
-
-function renderizarEvolucoes() {
-
-    listaEvolucoes.innerHTML = "";
-
-
-    const atual =
-        descobrirFase();
-
-
-    fases.forEach((fase, indice) => {
-
-        const div =
-            document.createElement("div");
-
-
-        div.className =
-            "evolucao";
-
-
-        if (toques >= fase.nivel) {
-
-            div.classList.add(
-                "desbloqueada"
-            );
-
-        }
-
-
-        if (indice === atual) {
-
-            div.classList.add(
-                "atual"
-            );
-
-        }
-
-
-        div.innerHTML = `
-
-            <div class="evolucao-emoji">
-
-                ${fase.emoji}
-
-            </div>
-
-            <div class="evolucao-nome">
-
-                ${fase.nome}
-
-            </div>
-
-            <div class="evolucao-nivel">
-
-                ${formatar(fase.nivel)}
-                toques
-
-            </div>
-
-        `;
-
-
-        listaEvolucoes.appendChild(div);
-
-    });
-
-}
-
-
-/* =====================================================
-   ATUALIZAR TELA
-===================================================== */
-
-function atualizar() {
-
-    const indice =
-        descobrirFase();
-
-    const faseAtual =
-        fases[indice];
-
-    const multiplicador =
-        calcularMultiplicador();
-
-
-    contador.textContent =
-        "Toques: " +
-        formatar(toques);
-
-
-    idade.textContent =
-        "Idade: " +
-        formatar(toques);
-
-
-    moedasElemento.textContent =
-        "🪙 Moedas: " +
-        formatar(moedas);
-
-
-    faseElemento.textContent =
-        faseAtual.nome;
-
-
-    numeroFase.textContent =
-        "Fase " +
-        (indice + 1) +
-        " / " +
-        fases.length;
-
-
-    ovo.textContent =
-        faseAtual.emoji;
-
-
-    multiplicadorElemento.textContent =
-        "Multiplicador: ×" +
-        formatar(multiplicador);
-
-
-    /* =====================
-       MENSAGENS
-    ===================== */
-
-    if (toques === 0) {
-
-        mensagem.textContent =
-            "Clique no ovo!";
-
-    }
-
-    else if (toques < 10) {
-
-        mensagem.textContent =
-            "O ovo está começando a rachar...";
-
-    }
-
-    else if (toques < 50) {
-
-        mensagem.textContent =
-            "O que será que vai nascer?";
-
-    }
-
-    else if (toques < 150) {
-
-        mensagem.textContent =
-            "A gema está se desenvolvendo...";
-
-    }
-
-    else if (toques < 300) {
-
-        mensagem.textContent =
-            "Oh meu Deus, um pinto nasceu!";
-
-    }
-
-    else if (toques < 1000) {
-
-        mensagem.textContent =
-            "O pinto está crescendo...";
-
-    }
-
-    else if (toques < 1000000) {
-
-        mensagem.textContent =
-            "Continue evoluindo!";
-
-    }
-
-    else {
-
-        mensagem.textContent =
-            "🏆 Você chegou a 1 MILHÃO!";
-
-    }
-
-
-    /* =====================
-       BARRA
-    ===================== */
-
-    if (indice >= fases.length - 1) {
-
-        barra.style.width = "100%";
-
-    }
-
-    else {
-
-        const atual =
-            fases[indice].nivel;
-
-        const proxima =
-            fases[indice + 1].nivel;
-
-
-        const porcentagem =
-            ((toques - atual) /
-            (proxima - atual)) * 100;
-
-
-        barra.style.width =
-            Math.max(
-                0,
-                Math.min(
-                    100,
-                    porcentagem
-                )
-            ) + "%";
-
-    }
-
-
-    renderizarPoderes();
-
-    renderizarPoderesAtivos();
-
-    renderizarEvolucoes();
-
-}
-
-
-/* =====================================================
+/* =========================
    SALVAR
-===================================================== */
+========================= */
 
 function salvar() {
 
@@ -1402,38 +620,525 @@ function salvar() {
         toques
     );
 
-
     localStorage.setItem(
         "ovo_moedas",
         moedas
     );
 
-
     localStorage.setItem(
         "ovo_poderes",
-        JSON.stringify(
-            poderesComprados
-        )
+        JSON.stringify(poderesComprados)
+    );
+
+    localStorage.setItem(
+        "ovo_poderes_ativos",
+        JSON.stringify(poderesAtivos)
+    );
+
+    localStorage.setItem(
+        "ovo_auto_poderes",
+        JSON.stringify(poderesAutoComprados)
+    );
+
+    localStorage.setItem(
+        "ovo_auto_ativo",
+        autoAtivo
     );
 
 }
 
 
-/* =====================================================
-   FORMATAR NÚMEROS
-===================================================== */
+/* =========================
+   ATUALIZAR TELA
+========================= */
 
-function formatar(numero) {
+function atualizarTela() {
 
-    return Number(numero)
-        .toLocaleString("pt-BR");
+    contador.textContent =
+        "Toques: " + Math.floor(toques);
+
+    idade.textContent =
+        "Idade do ovo: " + Math.floor(toques);
+
+    moedasTexto.textContent =
+        "🪙 Moedas: " + Math.floor(moedas);
+
+    const indice = descobrirFase();
+
+    faseTexto.textContent =
+        fases[indice].nome;
+
+    atualizarOvo(indice);
+
+    atualizarProgresso(indice);
+
+    renderizarPoderes();
+
+    renderizarPoderesAtivos();
+
+    renderizarFases();
+
+    atualizarAuto();
 
 }
 
 
-/* =====================================================
-   RESETAR
-===================================================== */
+/* =========================
+   OVO
+========================= */
+
+function atualizarOvo(indice) {
+
+    if (indice < 1) {
+        ovo.textContent = "🥚";
+    }
+
+    else if (indice < 2) {
+        ovo.textContent = "🥚";
+    }
+
+    else if (indice < 3) {
+        ovo.textContent = "🥚";
+    }
+
+    else if (indice < 4) {
+        ovo.textContent = "🍳";
+    }
+
+    else if (indice < 6) {
+        ovo.textContent = "🟡";
+    }
+
+    else if (indice < 10) {
+        ovo.textContent = "🐣";
+    }
+
+    else if (indice < 14) {
+        ovo.textContent = "🐔";
+    }
+
+    else if (indice < 18) {
+        ovo.textContent = "🦅";
+    }
+
+    else if (indice < 22) {
+        ovo.textContent = "🐉";
+    }
+
+    else if (indice < 24) {
+        ovo.textContent = "⚡";
+    }
+
+    else if (indice < 27) {
+        ovo.textContent = "🌌";
+    }
+
+    else if (indice < 29) {
+        ovo.textContent = "💎";
+    }
+
+    else {
+        ovo.textContent = "🏆";
+    }
+
+}
+
+
+/* =========================
+   PROGRESSO
+========================= */
+
+function atualizarProgresso(indice) {
+
+    if (indice >= fases.length - 1) {
+
+        progresso.style.width = "100%";
+
+        return;
+
+    }
+
+    const atual = fases[indice].nivel;
+
+    const proxima = fases[indice + 1].nivel;
+
+    const porcentagem =
+        ((toques - atual) /
+        (proxima - atual)) * 100;
+
+    progresso.style.width =
+        Math.max(0, Math.min(100, porcentagem)) + "%";
+
+}
+
+
+/* =========================
+   PODERES
+========================= */
+
+function renderizarPoderes() {
+
+    listaPoderes.innerHTML = "";
+
+    poderes.forEach(poder => {
+
+        const comprado =
+            poderesComprados.includes(poder.id);
+
+        const ativo =
+            poderesAtivos.includes(poder.id);
+
+        const div =
+            document.createElement("div");
+
+        div.className = "poder";
+
+        div.innerHTML = `
+            <strong>${poder.nome}</strong>
+
+            <small>
+                💰 ${poder.preco.toLocaleString("pt-BR")}
+                moedas
+            </small>
+
+            ${
+                !comprado
+                ?
+                `<button
+                    class="comprar"
+                    ${moedas < poder.preco ? "disabled" : ""}
+                    onclick="comprarPoder('${poder.id}')">
+                    Comprar
+                </button>`
+                :
+                `<button
+                    class="${ativo ? "desativar" : "ativar"}"
+                    onclick="alternarPoder('${poder.id}')">
+                    ${ativo ? "🔴 Desativar" : "🟢 Ativar"}
+                </button>`
+            }
+        `;
+
+        listaPoderes.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   COMPRAR PODER
+========================= */
+
+function comprarPoder(id) {
+
+    const poder =
+        poderes.find(p => p.id === id);
+
+    if (!poder) return;
+
+    if (poderesComprados.includes(id)) {
+        return;
+    }
+
+    if (moedas < poder.preco) {
+
+        alert("Você não tem moedas suficientes!");
+
+        return;
+
+    }
+
+    moedas -= poder.preco;
+
+    poderesComprados.push(id);
+
+    /*
+       O poder é comprado,
+       mas NÃO fica ativo automaticamente.
+    */
+
+    salvar();
+
+    atualizarTela();
+
+}
+
+
+/* =========================
+   ATIVAR / DESATIVAR
+========================= */
+
+function alternarPoder(id) {
+
+    if (!poderesComprados.includes(id)) {
+        return;
+    }
+
+    if (poderesAtivos.includes(id)) {
+
+        poderesAtivos =
+            poderesAtivos.filter(
+                poderId => poderId !== id
+            );
+
+    }
+
+    else {
+
+        poderesAtivos.push(id);
+
+    }
+
+    salvar();
+
+    atualizarTela();
+
+}
+
+
+/* =========================
+   PODERES ATIVOS
+========================= */
+
+function renderizarPoderesAtivos() {
+
+    if (poderesAtivos.length === 0) {
+
+        poderesAtivosDiv.innerHTML =
+            "Nenhum poder ativo.";
+
+        return;
+
+    }
+
+    poderesAtivosDiv.innerHTML = "";
+
+    let multiplicador = 1;
+
+    poderesAtivos.forEach(id => {
+
+        const poder =
+            poderes.find(p => p.id === id);
+
+        if (!poder) return;
+
+        multiplicador *= poder.multiplicador;
+
+        const div =
+            document.createElement("div");
+
+        div.className = "poder";
+
+        div.innerHTML = `
+            <strong>${poder.nome}</strong>
+            <small>🟢 Ativo</small>
+        `;
+
+        poderesAtivosDiv.appendChild(div);
+
+    });
+
+    const total =
+        document.createElement("div");
+
+    total.style.marginTop = "10px";
+
+    total.innerHTML =
+        `⚡ Multiplicador total: ×${multiplicador}`;
+
+    poderesAtivosDiv.appendChild(total);
+
+}
+
+
+/* =========================
+   AUTO CLICKER
+========================= */
+
+function intervaloAtualAuto() {
+
+    if (poderesAutoComprados.length === 0) {
+
+        return 4000;
+
+    }
+
+    let menor =
+        4000;
+
+    poderesAutoComprados.forEach(id => {
+
+        const poder =
+            poderesAuto.find(p => p.id === id);
+
+        if (poder && poder.intervalo < menor) {
+
+            menor = poder.intervalo;
+
+        }
+
+    });
+
+    return menor;
+
+}
+
+
+/* =========================
+   AUTO CLICKER TELA
+========================= */
+
+function atualizarAuto() {
+
+    const intervalo =
+        intervaloAtualAuto();
+
+    const segundos =
+        intervalo / 1000;
+
+    velocidadeAuto.textContent =
+        `Velocidade: 1 toque a cada ${segundos} segundo${segundos === 1 ? "" : "s"}`;
+
+    if (autoAtivo) {
+
+        botaoAuto.textContent =
+            "🟢 Desativar Auto Clicker";
+
+        botaoAuto.classList.add("ativo");
+
+    }
+
+    else {
+
+        botaoAuto.textContent =
+            "🤖 Ativar Auto Clicker";
+
+        botaoAuto.classList.remove("ativo");
+
+    }
+
+}
+
+
+/* =========================
+   ATIVAR AUTO
+========================= */
+
+botaoAuto.addEventListener("click", function() {
+
+    autoAtivo = !autoAtivo;
+
+    if (autoAtivo) {
+
+        iniciarAutoClicker();
+
+    }
+
+    else {
+
+        pararAutoClicker();
+
+    }
+
+    salvar();
+
+    atualizarAuto();
+
+});
+
+
+/* =========================
+   INICIAR AUTO
+========================= */
+
+function iniciarAutoClicker() {
+
+    pararAutoClicker();
+
+    const intervalo =
+        intervaloAtualAuto();
+
+    intervaloAuto =
+        setInterval(() => {
+
+            darToque();
+
+        }, intervalo);
+
+}
+
+
+/* =========================
+   PARAR AUTO
+========================= */
+
+function pararAutoClicker() {
+
+    if (intervaloAuto) {
+
+        clearInterval(intervaloAuto);
+
+        intervaloAuto = null;
+
+    }
+
+}
+
+
+/* =========================
+   FASES
+========================= */
+
+function renderizarFases() {
+
+    listaFases.innerHTML = "";
+
+    const atual =
+        descobrirFase();
+
+    fases.forEach((fase, index) => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "fase-card";
+
+        if (index <= atual) {
+
+            div.classList.add("desbloqueada");
+
+        }
+
+        div.innerHTML = `
+            <strong>${index + 1}ª fase</strong>
+            <br>
+            ${fase.nome}
+            <br>
+            <small>${fase.nivel.toLocaleString("pt-BR")} toques</small>
+        `;
+
+        listaFases.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   CLIQUE MANUAL
+========================= */
+
+ovo.addEventListener("click", function() {
+
+    darToque();
+
+});
+
+
+/* =========================
+   RESET
+========================= */
 
 function resetarJogo() {
 
@@ -1442,42 +1147,37 @@ function resetarJogo() {
             "Tem certeza que deseja apagar todo o progresso?"
         );
 
+    if (!confirmar) return;
 
-    if (!confirmar) {
-        return;
-    }
-
-
-    localStorage.removeItem(
-        "ovo_toques"
-    );
-
-    localStorage.removeItem(
-        "ovo_moedas"
-    );
-
-    localStorage.removeItem(
-        "ovo_poderes"
-    );
-
+    localStorage.clear();
 
     toques = 0;
-
     moedas = 0;
 
     poderesComprados = [];
+    poderesAtivos = [];
+    poderesAutoComprados = [];
 
+    autoAtivo = false;
 
-    atualizar();
+    pararAutoClicker();
+
+    atualizarTela();
 
 }
 
 
-/* =====================================================
+/* =========================
    INICIAR
-===================================================== */
+========================= */
 
-atualizar();
+atualizarTela();
+
+if (autoAtivo) {
+
+    iniciarAutoClicker();
+
+}
 
 </script>
 
